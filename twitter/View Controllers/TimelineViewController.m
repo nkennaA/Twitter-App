@@ -10,6 +10,8 @@
 #import "APIManager.h"
 #import "TweetCellTableViewCell.h"
 #import "ComposeViewController.h"
+#import "LoginViewController.h"
+#import "AppDelegate.h"
 @interface TimelineViewController ()<ComposeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tweetTableView;
 @property (strong, nonatomic) NSMutableArray *tweetList;
@@ -31,6 +33,13 @@
     [self FetchTweets];
     [self.refresher addTarget:self action:@selector(FetchTweets)forControlEvents:UIControlEventValueChanged];
     [self.tweetTableView insertSubview:self.refresher atIndex:0];
+}
+- (IBAction)logOut:(id)sender {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *login = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = login;
+    [[APIManager shared] logout];
 }
 
 -(void)FetchTweets{

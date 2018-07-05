@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
 @property (weak, nonatomic) Tweets *tweet;
+@property (weak, nonatomic) IBOutlet UIButton *Favbutton;
+@property (weak, nonatomic) IBOutlet UIButton *RTbutton;
 
 -(void)setWithTweet:(Tweets *)tweet;
 @end
