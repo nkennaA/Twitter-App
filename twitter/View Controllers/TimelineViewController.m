@@ -28,7 +28,6 @@
     self.refresher = [UIRefreshControl new];
     self.tweetTableView.delegate = self;
     self.tweetTableView.dataSource = self;
-    self.tweetTableView.rowHeight = 300;
     // Get timeline
     [self FetchTweets];
     [self.refresher addTarget:self action:@selector(FetchTweets)forControlEvents:UIControlEventValueChanged];
