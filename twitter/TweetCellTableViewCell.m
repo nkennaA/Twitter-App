@@ -9,11 +9,19 @@
 #import "TweetCellTableViewCell.h"
 #import <UIImageView+AFNetworking.h>
 #import "APIManager.h"
+#import "User.h"
+
+
 @implementation TweetCellTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProfile:)];
+    [self.ProfilePic addGestureRecognizer:profileTap];
+    [self.ProfilePic setUserInteractionEnabled:YES];
+}
+- (IBAction)didTapProfile:(id)sender {
+    [self.delegate tweetCell:self didTap:self.tweet.user];
 }
 - (IBAction)didTapLike:(id)sender {
     if(!self.tweet.favorited){

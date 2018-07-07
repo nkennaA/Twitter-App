@@ -12,7 +12,8 @@
 #import "ComposeViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
-@interface TimelineViewController ()<ComposeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+#import "ProfileViewController.h"
+@interface TimelineViewController ()<ComposeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, TweetCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tweetTableView;
 @property (strong, nonatomic) NSMutableArray *tweetList;
 @property (strong, nonatomic) UIRefreshControl *refresher;
@@ -22,6 +23,9 @@
 - (void)hasTweet:(Tweets *)tweet{
     [self.tweetList insertObject:tweet atIndex:0];
     [self.tweetTableView reloadData];
+}
+- (void)tweetCell:(TweetCellTableViewCell *)tweetCell didTap:(User *)user{
+    [self performSegueWithIdentifier:@"profileSegue" sender:user];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,6 +65,7 @@
     TweetCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     Tweets *tweet1 = self.tweetList[indexPath.row];
     [cell setWithTweet:tweet1];
+    cell.delegate = self;
     return cell;
     
     
@@ -74,9 +79,15 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
+    if([segue.identifier isEqualToString:@"tweetSegue"]){
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    }
+    if([segue.identifier isEqualToString:@"profileSegue"]){
+        ProfileViewController *profileViewController = [segue destinationViewController];
+        profileViewController.user = sender;
+    }
 }
 
 @end
